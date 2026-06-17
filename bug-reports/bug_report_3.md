@@ -49,3 +49,14 @@ Connects to Bug Reports #1 and #2 — Agent and Tab completion both optimize for
 - Python: 3.14.3
 - Repo: github.com/tiangolo/fastapi
 - Screenshot: yes
+
+## Engineering scope hypothesis
+Two separate components likely involved:
+
+**1. Tab completion index (stale cache):**
+Cursor maintains a codebase index for Tab completion that appears to update asynchronously — not in real-time after Agent applies bulk changes. The index likely lives in a background process separate from the Agent change pipeline. Fix: trigger an index refresh after Agent completes any bulk rename/refactor operation, or surface a warning "Tab completion index may be stale — reindexing in progress."
+
+**2. Decorator parameter suggestion ranking (wrong context):**
+Tab completion inside a `@router.get()` decorator suggested `response_class` over `response_model` — suggesting the suggestion ranking algorithm is not filtering by valid parameters for the specific decorator signature. Fix: when cursor position is inside a known FastAPI/decorator call, constrain suggestions to parameters valid for that function signature using the type stub or source definition.
+
+These are two independent bugs that compounded in a single Tab completion event — stale index surfaced the old name, wrong context ranking surfaced the wrong parameter.
