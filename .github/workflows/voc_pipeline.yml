@@ -22,8 +22,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: |
-          pip install anthropic rapidfuzz
+        run: pip install anthropic rapidfuzz
 
       - name: Run VoC ingester
         env:
@@ -52,7 +51,6 @@ jobs:
               exit(0)
 
           p0s = [i for i in issues if i["severity"] == "P0"]
-
           if not p0s:
               print("No P0s detected — no Slack alert needed")
               exit(0)
