@@ -85,4 +85,5 @@ jobs:
                   pipeline/human_review_queue.json 2>/dev/null || true
           git diff --cached --quiet || \
             git commit -m "chore: daily VoC pipeline run $(date +'%Y-%m-%d')"
+          git pull --rebase
           git push
