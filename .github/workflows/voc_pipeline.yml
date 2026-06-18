@@ -44,8 +44,7 @@ jobs:
               exit(0)
 
           try:
-              with open("pipeline/triage_output.json") as f: pass
-          with open("pipeline/triage_output.json") as f:
+              with open("pipeline/triage_output.json") as f:
                   issues = json.load(f)
           except FileNotFoundError:
               print("triage_output.json not found — skipping alert")
@@ -84,5 +83,6 @@ jobs:
                   pipeline/human_review_queue.json 2>/dev/null || true
           git diff --cached --quiet || \
             git commit -m "chore: daily VoC pipeline run $(date +'%Y-%m-%d')"
-          git pull --rebase
+          git fetch origin main
+          git rebase -X theirs origin/main
           git push
