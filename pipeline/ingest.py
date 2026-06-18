@@ -220,3 +220,4 @@ if __name__ == "__main__":
     write_outputs(rows)
     print_summary(rows)
     accuracy_report(rows)
+
