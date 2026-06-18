@@ -1,0 +1,171 @@
+[
+  {
+    "issue": "Cursor crashes on shutdown requiring daily reinstall",
+    "severity": "P0",
+    "routing": "engineering_escalation",
+    "report_count": 1,
+    "product_area": "Performance",
+    "sample_quotes": [
+      "Failed to install cursor update on shutdown \u2014 uninstalls itself. User must reinstall every day."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2026-06-16"
+  },
+  {
+    "issue": "Agent dispose deleted checkpoint blobs incorrectly \u2014 silent data loss on teardown",
+    "severity": "P0",
+    "routing": "engineering_escalation",
+    "report_count": 1,
+    "product_area": "Agent mode",
+    "sample_quotes": [
+      "Missing root ref triggered full directory wipe even when checkpoint blobs existed."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2026-06-04"
+  },
+  {
+    "issue": "Tab completion returning [not_found] on every request \u2014 indexing stuck on loading",
+    "severity": "P0",
+    "routing": "engineering_escalation",
+    "report_count": 1,
+    "product_area": "Tab completion",
+    "sample_quotes": [
+      "Every request logs Error in streaming cpp [not_found]. Tab completely broken. Indexing never completes."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2026-05-11"
+  },
+  {
+    "issue": "Tab complete shows suggestion but pressing Tab does nothing \u2014 or deletes 5-20 unrelated lines",
+    "severity": "P0",
+    "routing": "engineering_escalation",
+    "report_count": 1,
+    "product_area": "Tab completion",
+    "sample_quotes": [
+      "Must type something first to accept suggestion. When it does accept \u2014 deletes unrelated code below cursor. Data loss risk."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2025-10-21"
+  },
+  {
+    "issue": "Cursor reliably crashes every time Agent mode edits a file",
+    "severity": "P0",
+    "routing": "engineering_escalation",
+    "report_count": 1,
+    "product_area": "Agent mode",
+    "sample_quotes": [
+      "Reproducible: new folder cleared history all extensions disabled. UI freezes moment Agent edits any file. 100% repro."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2025-11-03"
+  },
+  {
+    "issue": "Context compression forgets edits from 2 minutes ago",
+    "severity": "P1",
+    "routing": "product_triage",
+    "report_count": 1,
+    "product_area": "Context window",
+    "sample_quotes": [
+      "Not a model bug \u2014 compression weights by space occupied not recency. Workaround: shorter sessions."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2026-06-09"
+  },
+  {
+    "issue": "Single prompt consumed 5M tokens in plan mode \u2014 API usage jumped 35% to 75%",
+    "severity": "P1",
+    "routing": "product_triage",
+    "report_count": 1,
+    "product_area": "Performance",
+    "sample_quotes": [
+      "Triggered by adding MCP server. Same task on Codex used 300k tokens. Suspected bug not feature."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2026-06-01"
+  },
+  {
+    "issue": "Cloud sessions failed to stream over HTTP/1.1 \u2014 broke proxies and CI images",
+    "severity": "P1",
+    "routing": "product_triage",
+    "report_count": 1,
+    "product_area": "Other",
+    "sample_quotes": [
+      "Streaming assumed HTTP/2. All HTTP/1.1 environments broken silently. Fixed in recent release."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2026-06-04"
+  },
+  {
+    "issue": ".d.ts files referenced unpublished workspace packages \u2014 caused TS2305/TS2307 errors",
+    "severity": "P1",
+    "routing": "product_triage",
+    "report_count": 1,
+    "product_area": "Other",
+    "sample_quotes": [
+      "Published types had internal workspace deps. Silent 'any' on stream types."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2026-06-04"
+  },
+  {
+    "issue": "Python SDK list_runs returned spurious agent-not-found errors",
+    "severity": "P1",
+    "routing": "product_triage",
+    "report_count": 1,
+    "product_area": "Agent mode",
+    "sample_quotes": [
+      "Bridge subprocess didn't inherit correct cwd. Fixed in cursor-sdk 0.1.6."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2026-06-04"
+  },
+  {
+    "issue": "Tab completion hallucinating suggestions aggressively with no context",
+    "severity": "P1",
+    "routing": "product_triage",
+    "report_count": 1,
+    "product_area": "Tab completion",
+    "sample_quotes": [
+      "Overly aggressive suggestions when no context available. Previously accurate for refactoring \u2014 now unreliable."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2026-04-21"
+  },
+  {
+    "issue": "Agent/editor mode switch button broken \u2014 no way to switch back without CMD+E",
+    "severity": "P1",
+    "routing": "product_triage",
+    "report_count": 1,
+    "product_area": "Agent mode",
+    "sample_quotes": [
+      "Button changes label but doesn't switch modes. Workaround exists (CMD+E) but UX is broken."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2026-01-05"
+  },
+  {
+    "issue": "Agent deletes files on repeated edits \u2014 not intentional deletion but a write bug",
+    "severity": "P1",
+    "routing": "product_triage",
+    "report_count": 1,
+    "product_area": "Agent mode",
+    "sample_quotes": [
+      "Since update 2.1.50 repeated edits to same file result in file deletion. Bug in Cursor file write mechanism."
+    ],
+    "confidence": "high",
+    "reasoning": "keyword classifier",
+    "date": "2025-12-07"
+  }
+]
