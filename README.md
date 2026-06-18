@@ -13,7 +13,9 @@
 
 Most quality programs stop at bug reporting. This one doesn't.
 
-This project explores what a **Product Quality Engineer** role looks like when built natively on AI — replacing manual triage spreadsheets with an automated pipeline that ingests community signal, classifies severity using an LLM, routes issues to the right team, and alerts on P0s before they compound.
+This project builds an AI-native product quality framework for developer tools — replacing manual triage spreadsheets with an automated pipeline that ingests community signal, classifies severity using an LLM, routes issues to the right team, and alerts on P0s before they compound.
+
+It is designed to be adapted to any AI-native developer tool where user feedback is high-volume, fast-moving, and currently under-routed.
 
 Three pillars:
 
