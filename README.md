@@ -100,7 +100,7 @@ Community signal (Reddit · Cursor Forum · Changelog)
 | Stage | Classifier | Accuracy vs manual tags | Notes |
 |---|---|---|---|
 | v1 | Keyword rules | 42% (8/19) | Fast, free, misses descriptive phrasing |
-| v2 | Claude API — LLM-as-judge | Run to measure | Nuance, confidence scoring, reasoning |
+| v2 | Claude API — LLM-as-judge | 58% (11/19) | +16pts over baseline — catches severity keyword rules miss |
 
 The v1 baseline was kept intentionally — the accuracy delta between v1 and v2 is the core eval story.
 
