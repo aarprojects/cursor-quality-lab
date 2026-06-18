@@ -74,15 +74,3 @@ jobs:
           urllib.request.urlopen(req, timeout=10)
           print(f"Slack alert sent — {len(p0s)} P0(s) reported")
           PYEOF
-
-      - name: Commit updated triage output
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pipeline/triage_output.json pipeline/voc_raw_data_reddit.csv \
-                  pipeline/human_review_queue.json 2>/dev/null || true
-          git diff --cached --quiet || \
-            git commit -m "chore: daily VoC pipeline run $(date +'%Y-%m-%d')"
-          git fetch origin main
-          git rebase -X theirs origin/main
-          git push
