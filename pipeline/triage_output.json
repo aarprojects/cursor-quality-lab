@@ -4,13 +4,26 @@
     "severity": "P0",
     "routing": "engineering_escalation",
     "report_count": 1,
-    "product_area": "Performance",
+    "product_area": "Other",
     "sample_quotes": [
       "Failed to install cursor update on shutdown \u2014 uninstalls itself. User must reinstall every day."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
+    "reasoning": "Complete loss of application functionality requiring daily reinstallation constitutes a blocking issue with severe user impact.",
     "date": "2026-06-16"
+  },
+  {
+    "issue": "wait() resolved before terminal result written \u2014 broke CI pipelines",
+    "severity": "P0",
+    "routing": "engineering_escalation",
+    "report_count": 1,
+    "product_area": "Agent mode",
+    "sample_quotes": [
+      "Hydration stopped before run reached final state. Broke headless automation reading partial results."
+    ],
+    "confidence": "high",
+    "reasoning": "Blocking issue causing CI pipeline failures due to premature completion before results are fully written, creating data integrity risk in automated workflows.",
+    "date": "2026-06-04"
   },
   {
     "issue": "Agent dispose deleted checkpoint blobs incorrectly \u2014 silent data loss on teardown",
@@ -22,7 +35,20 @@
       "Missing root ref triggered full directory wipe even when checkpoint blobs existed."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
+    "reasoning": "Silent data loss due to incorrect blob deletion during agent teardown represents critical data integrity failure requiring immediate investigation and fix.",
+    "date": "2026-06-04"
+  },
+  {
+    "issue": "Cloud sessions failed to stream over HTTP/1.1 \u2014 broke proxies and CI images",
+    "severity": "P0",
+    "routing": "engineering_escalation",
+    "report_count": 1,
+    "product_area": "Performance",
+    "sample_quotes": [
+      "Streaming assumed HTTP/2. All HTTP/1.1 environments broken silently. Fixed in recent release."
+    ],
+    "confidence": "high",
+    "reasoning": "Complete failure of cloud sessions in HTTP/1.1 environments (proxies, CI) represents a blocking issue affecting entire infrastructure classes with no workaround.",
     "date": "2026-06-04"
   },
   {
@@ -35,7 +61,7 @@
       "Every request logs Error in streaming cpp [not_found]. Tab completely broken. Indexing never completes."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
+    "reasoning": "Tab completion completely non-functional with indexing failure, blocking core editor feature entirely.",
     "date": "2026-05-11"
   },
   {
@@ -48,8 +74,21 @@
       "Must type something first to accept suggestion. When it does accept \u2014 deletes unrelated code below cursor. Data loss risk."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
+    "reasoning": "Data loss from unrelated code deletion combined with broken tab completion acceptance represents a critical blocker affecting core editor functionality.",
     "date": "2025-10-21"
+  },
+  {
+    "issue": "Agent deletes files on repeated edits \u2014 not intentional deletion but a write bug",
+    "severity": "P0",
+    "routing": "engineering_escalation",
+    "report_count": 1,
+    "product_area": "Agent mode",
+    "sample_quotes": [
+      "Since update 2.1.50 repeated edits to same file result in file deletion. Bug in Cursor file write mechanism."
+    ],
+    "confidence": "high",
+    "reasoning": "Data loss risk from unintentional file deletion due to write mechanism bug is a blocking critical issue requiring immediate investigation.",
+    "date": "2025-12-07"
   },
   {
     "issue": "Cursor reliably crashes every time Agent mode edits a file",
@@ -61,7 +100,7 @@
       "Reproducible: new folder cleared history all extensions disabled. UI freezes moment Agent edits any file. 100% repro."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
+    "reasoning": "100% reproducible crash blocking Agent mode functionality with UI freeze during file edits represents critical blocker requiring immediate engineering investigation.",
     "date": "2025-11-03"
   },
   {
@@ -74,7 +113,7 @@
       "Not a model bug \u2014 compression weights by space occupied not recency. Workaround: shorter sessions."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
+    "reasoning": "User reports context compression algorithm loses recent edits, which breaks the editor's ability to maintain conversation coherence and requires frequent session restarts as a workaround.",
     "date": "2026-06-09"
   },
   {
@@ -82,26 +121,13 @@
     "severity": "P1",
     "routing": "product_triage",
     "report_count": 1,
-    "product_area": "Performance",
+    "product_area": "Context window",
     "sample_quotes": [
       "Triggered by adding MCP server. Same task on Codex used 300k tokens. Suspected bug not feature."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
+    "reasoning": "Significant unintended token consumption (5M vs expected 300k) with measurable billing impact suggests a context window bug, likely related to MCP server integration, with clear workaround unavailable.",
     "date": "2026-06-01"
-  },
-  {
-    "issue": "Cloud sessions failed to stream over HTTP/1.1 \u2014 broke proxies and CI images",
-    "severity": "P1",
-    "routing": "product_triage",
-    "report_count": 1,
-    "product_area": "Other",
-    "sample_quotes": [
-      "Streaming assumed HTTP/2. All HTTP/1.1 environments broken silently. Fixed in recent release."
-    ],
-    "confidence": "high",
-    "reasoning": "keyword classifier",
-    "date": "2026-06-04"
   },
   {
     "issue": ".d.ts files referenced unpublished workspace packages \u2014 caused TS2305/TS2307 errors",
@@ -113,7 +139,7 @@
       "Published types had internal workspace deps. Silent 'any' on stream types."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
+    "reasoning": "Published package with unresolved internal dependencies causes TypeScript compilation failures (TS2305/TS2307) for downstream consumers, a broken distribution artifact with no workaround.",
     "date": "2026-06-04"
   },
   {
@@ -121,13 +147,26 @@
     "severity": "P1",
     "routing": "product_triage",
     "report_count": 1,
-    "product_area": "Agent mode",
+    "product_area": "Other",
     "sample_quotes": [
       "Bridge subprocess didn't inherit correct cwd. Fixed in cursor-sdk 0.1.6."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
+    "reasoning": "A subprocess working directory issue caused spurious errors in the Python SDK's list_runs method, affecting agent functionality with a fix already released.",
     "date": "2026-06-04"
+  },
+  {
+    "issue": "Code suggestions stopped appearing after clearing settings.json",
+    "severity": "P1",
+    "routing": "product_triage",
+    "report_count": 1,
+    "product_area": "Tab completion",
+    "sample_quotes": [
+      "Chat works fine but Tab suggestions gone. Clearing settings only fixes temporarily. Intermittent."
+    ],
+    "confidence": "high",
+    "reasoning": "Core feature (tab completion) is broken with only temporary workarounds and intermittent recurrence, indicating a persistent bug in settings persistence or suggestion pipeline.",
+    "date": "2026-01-23"
   },
   {
     "issue": "Tab completion hallucinating suggestions aggressively with no context",
@@ -139,7 +178,7 @@
       "Overly aggressive suggestions when no context available. Previously accurate for refactoring \u2014 now unreliable."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
+    "reasoning": "Regression in core feature reliability causing users to distrust suggestions, making tab completion effectively broken for their workflow despite no crash.",
     "date": "2026-04-21"
   },
   {
@@ -152,20 +191,46 @@
       "Button changes label but doesn't switch modes. Workaround exists (CMD+E) but UX is broken."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
+    "reasoning": "Button UI element fails to trigger mode switch despite label change, broken feature with keyboard workaround but poor UX indicates implementation bug",
     "date": "2026-01-05"
   },
   {
-    "issue": "Agent deletes files on repeated edits \u2014 not intentional deletion but a write bug",
+    "issue": "Agent/editor view selection applies to ALL open Cursor windows \u2014 not per-window",
     "severity": "P1",
     "routing": "product_triage",
     "report_count": 1,
     "product_area": "Agent mode",
     "sample_quotes": [
-      "Since update 2.1.50 repeated edits to same file result in file deletion. Bug in Cursor file write mechanism."
+      "Switching to agent view in one window forces all other open windows to switch too. Breaks multi-project workflows."
     ],
     "confidence": "high",
-    "reasoning": "keyword classifier",
-    "date": "2025-12-07"
+    "reasoning": "Significant feature degradation that breaks multi-window workflows by applying view state globally instead of per-window, with no workaround for users managing multiple projects simultaneously.",
+    "date": "2026-03-27"
+  },
+  {
+    "issue": "Agent edits files without accessing them in user mode \u2014 bypasses confirmation",
+    "severity": "P1",
+    "routing": "product_triage",
+    "report_count": 1,
+    "product_area": "Agent mode",
+    "sample_quotes": [
+      "Agent auto-creates/edits files using markdown code block syntax without user confirmation. Security concern."
+    ],
+    "confidence": "high",
+    "reasoning": "Agent mode bypassing user confirmation for file modifications is a significant feature defect with security implications, though not a complete blocker if users can disable agent mode.",
+    "date": "2025-11-06"
+  },
+  {
+    "issue": "Agent mode applies file changes directly to disk with no diff UI or Accept/Reject controls",
+    "severity": "P1",
+    "routing": "product_triage",
+    "report_count": 1,
+    "product_area": "Agent mode",
+    "sample_quotes": [
+      "After recent update \u2014 no red/green diff shown. No Keep/Undo buttons. Changes auto-accepted. Multiple versions affected."
+    ],
+    "confidence": "high",
+    "reasoning": "Broken feature with significant workflow degradation: Agent mode applying changes without user review capability is a critical control loss, though users can manually undo file changes if needed.",
+    "date": "2026-06-01"
   }
 ]
