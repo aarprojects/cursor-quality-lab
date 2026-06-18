@@ -1,0 +1,85 @@
+name: Cursor VoC Pipeline
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install anthropic rapidfuzz
+
+      - name: Run VoC ingester
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          cd pipeline
+          python ingest.py --source csv
+
+      - name: Check for P0s and alert Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          python - << 'PYEOF'
+          import json, os, urllib.request
+
+          webhook = os.getenv("SLACK_WEBHOOK_URL", "")
+          if not webhook:
+              print("No Slack webhook configured — skipping alert")
+              exit(0)
+
+          try:
+              with open("pipeline/triage_output.json") as f:
+                  issues = json.load(f)
+          except FileNotFoundError:
+              print("triage_output.json not found — skipping alert")
+              exit(0)
+
+          p0s = [i for i in issues if i["severity"] == "P0"]
+
+          if not p0s:
+              print("No P0s detected — no Slack alert needed")
+              exit(0)
+
+          lines = [f"🚨 *Cursor VoC Pipeline — {len(p0s)} P0(s) detected*\n"]
+          for p in p0s[:5]:
+              rc = p.get("report_count", 1)
+              lines.append(
+                  f"• *{p['product_area']}* | x{rc} report(s)\n"
+                  f"  _{p['issue'][:100]}_\n"
+                  f"  Routing: `{p['routing']}`"
+              )
+
+          payload = json.dumps({"text": "\n".join(lines)}).encode()
+          req = urllib.request.Request(
+              webhook,
+              data=payload,
+              headers={"Content-Type": "application/json"},
+              method="POST"
+          )
+          urllib.request.urlopen(req, timeout=10)
+          print(f"Slack alert sent — {len(p0s)} P0(s) reported")
+          PYEOF
+
+      - name: Commit updated triage output
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pipeline/triage_output.json pipeline/voc_raw_data_reddit.csv \
+                  pipeline/human_review_queue.json 2>/dev/null || true
+          git diff --cached --quiet || \
+            git commit -m "chore: daily VoC pipeline run $(date +'%Y-%m-%d')"
+          git push
